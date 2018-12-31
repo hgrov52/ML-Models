@@ -131,11 +131,11 @@ def plot_mesh(W,X):
 	xx,yy = np.meshgrid(np.arange(x_min, x_max, h),np.arange(y_min, y_max, h))
 	a,b,c=W
 	Z = a*xx+b*yy+c
-	norm = Normalize(np.min(X),np.max(X))
 
-	print(Z)
+	# not needed when Z is trnasoformed to [-1,1]
+	#norm = Normalize(np.min(X),np.max(X))
+
 	Z = sign(Z)
-	print(Z)
 
 	plt.pcolormesh(xx,yy,Z,cmap=cmap_light)#,norm=norm)
 	
