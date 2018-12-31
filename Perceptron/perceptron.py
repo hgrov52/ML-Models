@@ -36,6 +36,9 @@ def perceptron(X,y):
 
 	return W,(v_iterations,i_iterations,v_time,i_time)
 
+def normalize(X):
+	return (X-X.min())/(X.max()-X.min())
+
 def sign(n):
 	return np.where(np.array(n)>=0,1,-1)
 
@@ -105,7 +108,7 @@ def vector_vs_iterative(f,n,d):
 	plt.plot(N,v_iterations,label='vector')
 	plt.plot(N,i_iterations,label='iterative')
 	plt.xlabel("Number of data points")
-	plt.ylabel("Time (s)")
+	plt.ylabel("Number of iterations")
 	plt.ylim(-.0001,min(np.max(v_iterations),np.max(i_iterations)))
 	plt.legend()
 	plt.show()
@@ -142,14 +145,14 @@ def plot_mesh(W,X):
 if __name__ == '__main__':
 	d=2
 	n=100
-	f = np.random.rand(d+1)*2
+	f = np.random.rand(d+1)
 	f[1]*=-1
 
-	# vector_vs_iterative(f,n,d)
-	# compare=True
+	#vector_vs_iterative(f,n,d)
 
-	X,y = generate_separable_data(f,n,d)
 	
+	X,y = generate_separable_data(f,n,d)
+
 	W,stats = perceptron(X,y)
 	print("W:",W)
 
