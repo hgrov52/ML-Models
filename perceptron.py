@@ -34,15 +34,6 @@ def perceptron(X,y):
 	W=W[0]
 	W2=W2[0]
 
-	print('W:',W)
-	print('W2:',W2)
-	a,b,c=W
-	print("W slope:",-a/b)
-	print("W intercept:",-c/b)
-	a,b,c=W2
-	print("W2 slope:",-a/b)
-	print("W2 intercept:",-c/b)
-
 	return W,(v_iterations,i_iterations,v_time,i_time)
 
 def sign(n):
