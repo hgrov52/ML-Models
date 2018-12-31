@@ -100,6 +100,7 @@ def vector_vs_iterative(f,n,d):
 	plt.ylabel("Time (s)")
 	plt.ylim(-.0001,min(np.max(v_time),np.max(i_time)))
 	plt.legend()
+	plt.title("Comparison of Vectorized versus Iterative time")
 	plt.show()
 
 	v_iterations = gaussian_filter1d(v_iterations,sigma=2)
@@ -111,6 +112,7 @@ def vector_vs_iterative(f,n,d):
 	plt.ylabel("Number of iterations")
 	plt.ylim(-.0001,min(np.max(v_iterations),np.max(i_iterations)))
 	plt.legend()
+	plt.title("Comparison of Vectorized versus Iterative number of iterations")
 	plt.show()
 
 def plot_implicit(W):
@@ -148,7 +150,7 @@ if __name__ == '__main__':
 	f = np.random.rand(d+1)
 	f[1]*=-1
 
-	#vector_vs_iterative(f,n,d)
+	vector_vs_iterative(f,n,d)
 
 	
 	X,y = generate_separable_data(f,n,d)
@@ -167,6 +169,8 @@ if __name__ == '__main__':
 	plt.ylim(0,X[:,1].max()+1)
 	plt.xlim(0,X[:,0].max()+1)
 	plot_implicit(W)
+	a,b,c=W
+	plt.title("Ordinary Perceptron\nSlope: {:.2f} | Intercept: {:.2f}".format(-a/b,-c/b))
 	plt.show()
 
 
