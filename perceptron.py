@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt	
-import time
+import time,data,plotting
+import activation_functions as af
 
 
 def perceptron(X,y):
@@ -36,14 +37,8 @@ def perceptron(X,y):
 
 	return W,(v_iterations,i_iterations,v_time,i_time)
 
-def normalize(X):
-	return (X-X.min())/(X.max()-X.min())
-
-def sign(n):
-	return np.where(np.array(n)>=0,1,-1)
-
 def classify(W,x):
-	return sign(np.dot(W,x.T))
+	return af.sign(np.dot(W,x.T))
 
 def get_one_misclassified(W,X,y):
 	misclassified=[]
@@ -65,15 +60,6 @@ def is_misclassified(W,X,y):
 		if(classify(W,X[i])!=y[i]):
 			return True
 	return False
-
-def generate_separable_data(f,n,d,max_num=10):
-	y = []
-	X = []
-	while(len(y)<n):
-		x = np.hstack((np.random.rand(d)*max_num,np.array(1)))
-		X.append(x)
-		y.append(classify(f,x))
-	return np.array(X),np.array(y)
 
 def vector_vs_iterative(f,n,d):
 	N = np.arange(n)[2:]
@@ -115,60 +101,23 @@ def vector_vs_iterative(f,n,d):
 	plt.title("Comparison of Vectorized versus Iterative number of iterations")
 	plt.show()
 
-def plot_implicit(W):
-	a,b,c = W
-	x = np.array((plt.xlim()))
-	y = eval('-a*x/b-c/b')
-	plt.plot(x,y,c='black')
 
-	print("slope:",-a/b)
-	print("intercept:",-c/b)
-
-def plot_mesh(W,X):
-	from matplotlib.colors import Normalize
-	from matplotlib.colors import ListedColormap
-	cmap_light = ListedColormap(['#FFAAAA', '#AAAAFF'])#,'#98FB98'])
-	cmap_bold = ListedColormap(['#FF0000', '#0000FF'])
-
-	h = .02
-	x_min, x_max = X[:, 0].min() - 1, X[:, 0].max() + 1
-	y_min, y_max = X[:, 1].min() - 1, X[:, 1].max() + 1
-	xx,yy = np.meshgrid(np.arange(x_min, x_max, h),np.arange(y_min, y_max, h))
-	a,b,c=W
-	Z = a*xx+b*yy+c
-
-	# not needed when Z is trnasoformed to [-1,1]
-	#norm = Normalize(np.min(X),np.max(X))
-
-	Z = sign(Z)
-
-	plt.pcolormesh(xx,yy,Z,cmap=cmap_light)#,norm=norm)
-	
 if __name__ == '__main__':
 	d=2
 	n=100
 	f = np.random.rand(d+1)
 	f[1]*=-1
 
-	vector_vs_iterative(f,n,d)
+	#vector_vs_iterative(f,n,d)
 
-	
-	X,y = generate_separable_data(f,n,d)
+	X,y = data.generate_linear_data(f,n,d,classify)
 
 	W,stats = perceptron(X,y)
 	print("W:",W)
 
-	plot_mesh(W,X)
-	#plt.scatter(X[:,0],X[:,1],c=y,marker='+')
-	pos = X[np.where(y==1)]
-	neg = X[np.where(y==-1)]
-	plt.scatter(pos[:,0],pos[:,1],c='blue',marker='o')
-	plt.scatter(neg[:,0],neg[:,1],c='red',marker='x')
-	
-	
-	plt.ylim(0,X[:,1].max()+1)
-	plt.xlim(0,X[:,0].max()+1)
-	plot_implicit(W)
+	plotting.plot_mesh(W,X)
+	plotting.plot_implicit(W)
+	plotting.plot_data(X,y=y)
 	a,b,c=W
 	plt.title("Ordinary Perceptron\nSlope: {:.2f} | Intercept: {:.2f}".format(-a/b,-c/b))
 	plt.show()
