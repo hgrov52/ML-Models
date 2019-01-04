@@ -27,7 +27,7 @@ def perceptron(X,y,max_iter=1000,compare=False):
 		W = W+s
 		misclassified = calculate_error(W,X,y)
 		error = len(misclassified)
-		if(error>prev_error):
+		if(error>=prev_error):
 			decreasing_error = False
 		if(error<best_error):
 			best_error = error
@@ -134,7 +134,7 @@ if __name__ == '__main__':
 
 	#vector_vs_iterative(f,n,d)
 	
-	X,y = data.generate_linear_data(f,n,d,classify,separable=False)
+	X,y = data.data(f,n,d,classify,separable=False)
 
 	W,error = perceptron(X,y)
 	print("W:",W)

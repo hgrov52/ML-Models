@@ -110,7 +110,7 @@ if __name__ == '__main__':
 
 	#vector_vs_iterative(f,n,d)
 
-	X,y = data.generate_linear_data(f,n,d,classify)
+	X,y = data.data(f,n,d,classify)
 
 	W,stats = perceptron(X,y)
 	print("W:",W)
