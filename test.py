@@ -19,7 +19,13 @@ plotting.plot_implicit(W,q=q)
 
 plotting.show()
 
-X = data.qth_order_data(lower=-4,upper=2,q=5)
-print(X)
+X,f = data.qth_order_data(lower=-100,upper=100,q=5)
+z_ = data.zoom_limits(X)
+
+X = data.increase_resolution(f,z_)
+
+
+
 plotting.plot_data(X)
+plotting.set_limits(z_)
 plotting.show()

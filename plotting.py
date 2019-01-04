@@ -5,7 +5,6 @@ def set_limits(X):
 	plt.ylim(X[:,1].min()-X[:,1].ptp()/10,X[:,1].max()+X[:,1].ptp()/10)
 	plt.xlim(X[:,0].min()-X[:,0].ptp()/10,X[:,0].max()+X[:,0].ptp()/10)
 
-
 def plot_implicit(W,q=1):
 	a,b,c = W
 	
