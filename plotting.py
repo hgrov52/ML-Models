@@ -5,14 +5,17 @@ def set_limits(X):
 	plt.ylim(X[:,1].min()-X[:,1].ptp()/10,X[:,1].max()+X[:,1].ptp()/10)
 	plt.xlim(X[:,0].min()-X[:,0].ptp()/10,X[:,0].max()+X[:,0].ptp()/10)
 
-def plot_implicit(W,q=1):
+def plot_transform(W,q=1):
 	a,b,c = W
-	
 	x = np.linspace(*plt.xlim(), 100)
 	y = np.linspace(*plt.ylim(), 100)
 	X, Y = np.meshgrid(x,y)
 	F = a*(X**q) + b*(Y**q) + c
 	plt.contour(X,Y,F,[0])
+
+def polynomial(p,X):
+	x = np.linspace(X[:,0].min(),X[:,0].max(),1000)
+	plt.plot(x,p.evaluate(x))
 
 # qth order
 def plot_mesh(W,X,q=1):
@@ -37,16 +40,22 @@ def plot_mesh(W,X,q=1):
 
 	plt.pcolormesh(xx,yy,Z,cmap=cmap_light)#,norm=norm)
 	
-def plot_data(X,y=None):
-	set_limits(X)
+def plot_data(X,y=None,s=5,c='b',marker='o',title=''):
+	if(X.ndim == 1):
+		X = X.reshape((1,len(X)))
+	else:
+		set_limits(X)
+	s = np.zeros(X.shape[0]).fill(s)
 
 	if(y is None):
-		plt.scatter(X[:,0],X[:,1])
+		plt.scatter(X[:,0],X[:,1],s=s,c=c,marker=marker)
 	else:
 		pos = X[np.where(y==1)]
 		neg = X[np.where(y==-1)]
-		plt.scatter(pos[:,0],pos[:,1],c='blue',marker='o')
-		plt.scatter(neg[:,0],neg[:,1],c='red',marker='x')
+		plt.scatter(pos[:,0],pos[:,1],c='blue',marker='o',s=s)
+		plt.scatter(neg[:,0],neg[:,1],c='red',marker='x',s=s)
+
+	plt.title(title)
 	
 def show():
 	plt.show()
